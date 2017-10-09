@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="default_white">#FFF5F5F5</color>
+    <color name="line_color">#E3E3E3</color>
+    <color name="blue">#007AFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="base_color">#F2F2F2</color>
+    <color name="text_color_purple">#7d587a</color>
+    <color name="text_color_green">#0F870F</color>
+    <color name="text_color_red">#FF0909</color>
+    <color name="red_color">#ee6459</color>
+    <color name="orange">#FF771C</color>
+    <color name="orange_press">#d7712d</color>
+    <color name="text_color1">#B3B3B3</color>
+    <color name="text_color2">#838383</color>
+    <color name="text_color3">#404040</color>
+    <color name="text_black">@color/text_color3</color>
+<!--
+    <color name="main_red">#ED3030</color>
+-->
+    <color name="main_red">#F13131</color>
+    <color name="press_red">#C11F1F</color>
+    <color name="header_bg">@color/main_red</color>
+    <color name="layout_bg_color">@color/base_color</color>
+    <color name="not_selected_bg">@color/transparent</color>
+    <color name="member_jinpai_text">#F2D934</color>
+    <color name="member_yinpai_text">#CCCCCC</color>
+    <color name="member_tongpai_text">#91683F</color>
+    <color name="gray_text">#3A3A3A</color>
+    <color name="text_bg">#F38134</color>
+    <color name="selected_bg">#EBEBEB</color>
+    <color name="dark_gray">#E3E3E3</color>
+    <color name="hint_gray">#999999</color>
+    <color name="price_bg">#138F69</color>
+    <color name="text_color">#B3B3B3</color>
+    <color name="text_default">#808080</color>
+    <color name="text_green">#0F870F</color>
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+    <color name="exception_text">#404040</color>
+
+    <color name="label_pressed_bg">@color/main_red</color>
+    <color name="label_normal_bg">@color/default_white</color>
+    <color name="exception_color">#E78778</color>
+    <color name="label_color_red">#F56565</color>
+    <color name="label_color_green">#13BF69</color>
+    <color name="label_color_orange">#FF771C</color>
+    <color name="pull_bg">#FFF5F5F5</color>
+
+    <!-- 通用颜色部分，谨慎使用，防止造成换肤困扰 -->
+    <color name="green">#64b714</color>
+    <color name="black">#000000</color>
+    <color name="gray">#999999</color>
+    <color name="bg_all">#efeff4</color>
+    <color name="bg_title">#5566b8</color>
+    <color name="bg_img_loading">#99ffffff</color>
+    <color name="line_gray">#CECECE</color>
+    <color name="bg_selector">#f3f3f3</color>
+    <color name="info_bottom">#e3e8ff</color>
+    <color name="bg_update_item">#1c1c1c</color>
+    <color name="progress_update_bg">#545454</color>
+    <color name="progress_update_progress">#cf4cd2</color>
+    <color name="bg_update_item_text">#7d7c7c</color>
+    <color name="bg_update_item_hightlight">#272727</color>
+    <color name="text_rejected_reason">#e3586d</color>
+
+    <!-- loading -->
+    <color name="text_loading">#5566b8</color>
+    <!-- login -->
+    <color name="login_blue">#5566b8</color>
+
+    <!-- claim_note -->
+    <color name="claim_note_black">#000000</color>
+    <color name="claim_note_example">#efeff4</color>
+    <color name="claim_note_red">#df5b4e</color>
+    <color name="claim_note_blue">#5566b8</color>
+
+    <!-- claim search -->
+    <color name="claim_search_black">#000000</color>
+    <color name="claim_search_gray_text">#ccffffff</color>
+
+    <!-- claim nearby -->
+    <color name="claim_nearby_gray_text">#707070</color>
+
+    <!-- claim first -->
+    <color name="claim_first_black">#666666</color>
+    <color name="claim_first_gray">#CECECE</color>
+    <color name="line_claim_first">#dddddd</color>
+    <color name="bg_cover">#aa000000</color>
+    <color name="bg_claim_add_sold">#f5f5f5</color>
+    <color name="bg_claim_add_stroke">#dddddd</color>
+
+    <!-- map -->
+    <color name="map_info">#ffffff</color>
+
+    <!-- city -->
+    <color name="city_letter_bg">#5566b8</color>
+
+    <!-- album -->
+    <color name="album_title">#666666</color>
+    <color name="album_text">#BDBDBD</color>
+    <color name="album_bg_press">#f3f3f3</color>
+
+    <!-- foucus(button,bg_progress) -->
+    <color name="bg_focus">#5566b8</color>
+    <color name="bg_unfocus">#aab3dc</color>
+
+    <!-- menu -->
+    <color name="bg_menu">#6d7078</color>
+    <color name="bg_menu_title">#babbbc</color>
+    <color name="bg_menu_line">#4e5056</color>
+    <color name="bg_menu_bottom">#c5c6c9</color>
+
+    <!-- status -->
+    <color name="bg_status_bar">#ffdfe0</color>
+    <color name="bg_status_gray">#88999999</color>
+
+    <!-- status -->
+    <color name="bg_photo_tv_full">#aeaeae</color>
+    <color name="bg_photo_full">#d7d7d7</color>
+
+    <!-- update tips -->
+    <color name="bg_update_solid">#f1f1f1</color>
+    <color name="bg_update_stroke">#dadada</color>
+
+    <!-- 活动列表 -->
+    <color name="bg_huodong_selectbar">#e4e4e4</color>
+
+
+    <!-- 日历 -->
+
+
+    <color name="calendar_background">#000000</color>
+    <color name="recordremind_background">#FFFFFF</color>
+    <color name="border_color">#FFFFFF</color>
+    <color name="weekname_color">#FFFFFF</color>
+    <color name="day_color">#FFFFFF</color>
+    <color name="inner_grid_color">#FFFFFF</color>
+    <color name="prev_next_month_day_color">#999999</color>
+    <color name="recordremindtext_color">#000000</color>
+    <color name="current_day_color">#FF0000</color>
+    <color name="today_background_color">#FF0000</color>
+    <color name="today_color">#FFFFFF</color>
+    <color name="sunday_saturday_color">#FF0000</color>
+    <color name="sunday_saturday_prev_next_month_day_color">#990000</color>
+    <color name="bgcolor">#ffffff</color>
+    <color name="txtcolor">#000000</color>
+    <color name="Calendar_WeekBgColor">#FFFFFF</color>
+    <color name="Calendar_WeekFontColor">#666666</color>
+    <color name="Calendar_DayBgColor">#5566b8</color>
+    <color name="isHoliday_BgColor">#E0E0E0</color>
+    <color name="unPresentMonth_FontColor">#999999</color>
+    <color name="isPresentMonth_FontColor">#333333</color>
+    <color name="isToday_BgColor">#fd5c5c</color>
+    <color name="specialReminder">#FF0000</color>
+    <color name="commonReminder">#BDBAB5</color>
+
+    <!-- 模板 -->
+    <color name="template_nor_font">#feeeee</color>
+    <color name="template_all_font">#952a10</color>
+    <color name="poi_name">#333333</color>
+    <color name="blue_cloud_scheme">@color/main_red</color>
+    <color name="line">#dddddd</color>
+
+    <!-- 路径规划 -->
+    <color name="change_city">#999999</color>
+    <color name="city_normal">#666666</color>
+    <color name="item_press">#e5e5e5</color>
+    <color name="act_background">#efefef</color>
+    <color name="text_color_in_searchbar">#ffffff</color>
+    <color name="search_bar_background">#1b62c3</color>
+    <color name="watermark_hint">#ccffffff</color>
+    <color name="cloud_item_title">#333333</color>
+    <color name="cloud_item_gray">#999999</color>
+    <color name="city_choose">#ffffff</color>
+
+    <!-- 详情页 -->
+    <color name="identify_title_text">#999999</color>
+    <color name="identify_content_text">#333333</color>
+    <color name="detail_name_address">#666666</color>
+
+    <!-- app 通用 -->
+    <color name="bg_divider_line">#e0e0e0</color>
+    <color name="phone_bg">#f6f6f6</color>
+    <color name="phone_num_press">#cccccc</color>
+    <color name="gray_button_press">#7a7a7a</color>
+    <color name="pre_image_bg">#202020</color>
+    <color name="map_topTip_text">#a5a5a5</color>
+    <color name="tip_text_red">#999999</color>
+
+    <color name="control_background">#cc4285f4</color>
+
+</resources>
