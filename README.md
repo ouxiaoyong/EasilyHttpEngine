@@ -17,7 +17,7 @@ allprojects{
  然后在module的build.gradle中加入以下代码
 ```
 dependencies{
-	compile 'com.github.ouxiaoyong:PowerfulHttpEngine:1.0.2-alpha1'
+	compile 'com.github.ouxiaoyong:EasilyHttpEngine:1.0.0'
 }
 
 ```
