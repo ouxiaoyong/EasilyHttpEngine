@@ -18,7 +18,7 @@ public class HttpTools {
             unEncryptParams.put(KEY_API_NAME,httpParams.getString(KEY_API_NAME));
         }
         RequestInstance request = new RequestInstance();
-        request.setApiUrl("http://test.cus.lianbaowang.com/interface.php");
+        request.setApiUrl("");
         request.setUploadDispositionName("image");
         request.setDataCipher(new AesCipher("E1A224AC55FD74E0"));
         request.setParamsKey("data");
