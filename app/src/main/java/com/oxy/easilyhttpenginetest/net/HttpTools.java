@@ -1,16 +1,10 @@
 package com.oxy.easilyhttpenginetest.net;
 
-import com.oxy.easilyhttpengine.HttpConfig;
-import com.oxy.easilyhttpengine.HttpEngine;
 import com.oxy.easilyhttpengine.HttpParams;
-import com.oxy.easilyhttpengine.IHttpEngine;
-import com.oxy.easilyhttpengine.IHttpListener;
-import com.oxy.easilyhttpengine.IMultiHttpListener;
-import com.oxy.easilyhttpengine.RequestInfo;
-import com.oxy.easilyhttpengine.RequestType;
+import com.oxy.easilyhttpengine.base.AbsRequest;
+import com.oxy.easilyhttpengine.base.RequestInstance;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Administrator on 2017/7/21.
@@ -18,67 +12,24 @@ import java.util.List;
 
 public class HttpTools {
     private static final String KEY_API_NAME = "apiName";
-    private static IHttpEngine httpEngine = new HttpEngine.Builder()
-            //填写您的服务器地址
-            .setServerURL("")
-            //填写参数key
-            .setParamsKey("data")
-            //填写上传文件的DispositionName key
-            .setUploadFileDispositionName("image")
-            .setDefaultResponseHandler(new DefaultResponseHandler(false))
-            .setDataCipher(new AesCipher())
-            .create();
-
-    public static void httpPost(HttpConfig config, HttpParams params,
-                                IHttpListener listener) {
+    public static AbsRequest getDefaultRequest(boolean isListData,HttpParams httpParams){
         HashMap<String,String> unEncryptParams = new HashMap<>();
-        unEncryptParams.put(KEY_API_NAME,params.getString(KEY_API_NAME));
-        httpEngine.httpPost(config, params, unEncryptParams,listener);
-    }
-
-    public static void httpGet(HttpConfig config, HttpParams params, IHttpListener listener){
-        httpEngine.httpGet(config, params,null,listener);
-    }
-
-    public static void httpGetMulti(List<RequestInfo> requestInfos, IMultiHttpListener listener){
-        httpEngine.httpGetMulti(requestInfos,listener);
-    }
-
-    public static void httpMulti(List<RequestInfo> requestInfos, IMultiHttpListener listener){
-        for (RequestInfo requestInfo : requestInfos){
-            if(requestInfo.config.method == RequestType.GET ||
-                    requestInfo.params == null){
-                continue;
-            }
-            HashMap<String,String> unEncryptParams = new HashMap<>();
-            unEncryptParams.put(KEY_API_NAME,requestInfo.params.getString(KEY_API_NAME));
-            requestInfo.notEncryptParams = unEncryptParams;
+        if(httpParams != null){
+            unEncryptParams.put(KEY_API_NAME,httpParams.getString(KEY_API_NAME));
         }
-        httpEngine.httpMulti(requestInfos,listener);
+        RequestInstance request = new RequestInstance();
+        request.setApiUrl("http://test.cus.lianbaowang.com/interface.php");
+        request.setUploadDispositionName("image");
+        request.setDataCipher(new AesCipher("E1A224AC55FD74E0"));
+        request.setParamsKey("data");
+        request.setResponseHandler(new DefaultResponseHandler(isListData));
+        request.setExtraParams(unEncryptParams);
+        request.setHttpParams(httpParams);
+        return request;
     }
 
-    public static void httpPostMulti(List<RequestInfo> requestInfos, IMultiHttpListener listener){
-        for (RequestInfo requestInfo : requestInfos){
-            HashMap<String,String> unEncryptParams = new HashMap<>();
-            unEncryptParams.put(KEY_API_NAME,requestInfo.params.getString(KEY_API_NAME));
-            requestInfo.notEncryptParams = unEncryptParams;
-        }
-        httpEngine.httpPostMulti(requestInfos,listener);
+    public static AbsRequest getDefaultRequest(HttpParams httpParams){
+        return getDefaultRequest(true,httpParams);
     }
 
-    public static void uploadFiles(HttpConfig config, HttpParams params,
-                            List<String> filePaths,
-                            IHttpListener httpListener,
-                            IMultiHttpListener multiHttpListener) {
-        HashMap<String,String> unEncryptParams = new HashMap<>();
-        unEncryptParams.put(KEY_API_NAME,params.getString(KEY_API_NAME));
-        httpEngine.uploadFiles(config, params, unEncryptParams,filePaths,httpListener,multiHttpListener);
-    }
-
-    public static void uploadFile(HttpConfig config,  HttpParams params,
-                             String filePath,  IHttpListener listener) {
-        HashMap<String,String> unEncryptParams = new HashMap<>();
-        unEncryptParams.put(KEY_API_NAME,params.getString(KEY_API_NAME));
-        httpEngine.uploadFile(config, params, unEncryptParams,filePath,listener);
-    }
 }

@@ -3,12 +3,23 @@ package com.oxy.easilyhttpenginetest.net;
 
 import com.oxy.easilyhttpengine.IDataCipher;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 public class AesCipher implements IDataCipher {
 	//填写您的加密密钥
-	public static byte[] raw = {};
+	private byte[] raw;
+
+	public AesCipher(String key){
+		try {
+			raw = key.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public String decrypt(String dataSource) throws Exception {
 		SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
 		Cipher cipher = Cipher.getInstance("AES");
