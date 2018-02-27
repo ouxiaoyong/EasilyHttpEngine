@@ -2,6 +2,8 @@ package com.oxy.easilyhttpengine.base;
 
 import android.text.TextUtils;
 
+import com.oxy.easilyhttpengine.log.Logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

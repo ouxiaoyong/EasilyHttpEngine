@@ -1,6 +1,7 @@
 package com.oxy.easilyhttpenginetest;
 
 import android.os.Bundle;
+import android.os.Process;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = (TextView) findViewById(R.id.text);
-
+        Logger.d("pid:"+ Process.myPid()+"  currentThread:"+Thread.currentThread().toString());
         //loadingView = new LoadingViewImpl(textView);
         /*loadingView.setLoadingListener(new View.OnClickListener() {
             @Override
@@ -210,8 +211,19 @@ public class MainActivity extends AppCompatActivity{
         HttpTools.httpPost(config,params,listener);*/
         HttpParams params = createHttpParams("getRepairerAddressList");
         HttpTools.getDefaultRequest(params)
+                .setTypeClass(AddressInfo.class)
                 .setLoaddingMsg("获取地址。。。")
-                .setRequestListener(new RequestListenerImp(new RequestViewImp(this))).execute(this);
+                .setRequestListener(new RequestListenerImp<List<AddressInfo>>(new RequestViewImp(this)){
+                    @Override
+                    public void onSuccess(List<AddressInfo> data) {
+                        super.onSuccess(data);
+                        Logger.d(" data:"+data);
+
+                        Logger.d(" data[0]:"+data.get(0));
+
+                    }
+                })
+                .execute(this);
     }
 
     public void onPostMulti(View v){
@@ -397,7 +409,7 @@ public class MainActivity extends AppCompatActivity{
                 .put("latitude",1000)
                 .put("deviceID","1888f7535e96456bafb7874f16303304")
                 .put("clientID","728d5d77557a74d3217aa0127373efc6")
-                .put("userToken","de7077791cdac26ba9283eb3ba7f30d8")
+                .put("userToken","6f28b95dfa4438550d71626bc0336f25")
                 .put("deviceType",0);
     }
 }

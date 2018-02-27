@@ -13,13 +13,12 @@ import com.oxy.easilyhttpengine.log.Logger;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by BelleOU on 18/1/26.
  */
 
-public class RequestInstance<T> extends AbsRequest<T> {
+public class RequestInstance extends AbsRequest{
     Object call;
     @Override
     public void execute(Context context) {
@@ -53,6 +52,9 @@ public class RequestInstance<T> extends AbsRequest<T> {
         IHttpClient.IResponseListener responseListener = new IHttpClient.IResponseListener() {
             @Override
             public void onProgress(final float percentage) {
+                if(isCanceled){
+                    return;
+                }
                 if(Looper.myLooper() == Looper.getMainLooper()){
                     if(responseCallback != null){
                         responseCallback.onProgress(RequestInstance.this,percentage);
@@ -77,7 +79,7 @@ public class RequestInstance<T> extends AbsRequest<T> {
 
             @Override
             public void onResponse(String response) {
-                if(isCanceled()){
+                if(isCanceled){
                     error(response,null, responseCallback);
                     return;
                 }
@@ -112,6 +114,9 @@ public class RequestInstance<T> extends AbsRequest<T> {
 
             @Override
             public void onError(String msg) {
+                if(isCanceled){
+                    return;
+                }
                 error(null,msg, responseCallback);
             }
         };
@@ -133,19 +138,18 @@ public class RequestInstance<T> extends AbsRequest<T> {
 
     Object transition(JSONObject object){
         if(responseHandler != null && typeClass != null){
+            Object data = null;
             String dataStr = responseHandler.getDataString(object);
             if(responseHandler.isListData()){
-                List<T> listData = responseHandler.parseDataString2List(typeClass,dataStr);
-                return listData;
+                data = responseHandler.parseDataString2List(typeClass,dataStr);
             }else{
-                T data = null;
                 try {
                     data = responseHandler.parseDataString2Object(typeClass,dataStr);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return data;
             }
+            return data;
         }else{
             return null;
         }
@@ -153,9 +157,8 @@ public class RequestInstance<T> extends AbsRequest<T> {
 
     void success(final String response, final JSONObject object, final IResponseCallback callback){
         Logger.d("response :"+ StringUtils.unicode2String(response));
-        Object data = null;
         String sucMsg = "";
-        data = transition(object);
+        Object data = transition(object);
         if(responseHandler != null){
             sucMsg = responseHandler.getMessge(object,true);
         }

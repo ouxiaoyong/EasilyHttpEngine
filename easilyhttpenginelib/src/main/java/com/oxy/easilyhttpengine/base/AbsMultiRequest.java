@@ -12,8 +12,8 @@ import java.util.List;
 
 public abstract class AbsMultiRequest extends AbsRequest{
     protected boolean isEndRequest = true;
-    List<IRequest> requests = new ArrayList<>();
-    IMultiRequestListener multiRequestListener;
+    protected List<IRequest> requests = new ArrayList<>();
+    protected IMultiRequestListener multiRequestListener;
     protected IRequest currentRequest;
     protected IResponseCallback callback = new IResponseCallback() {
         @Override
@@ -45,7 +45,7 @@ public abstract class AbsMultiRequest extends AbsRequest{
                 return;
             }
             request.setSuccess(true);
-            if(handleSuccess(msg)){
+            if(handleSuccess()){
                 isEndRequest = true;
                 if(multiRequestListener != null){
                     multiRequestListener.onSuccess(AbsMultiRequest.this,msg);
@@ -78,7 +78,7 @@ public abstract class AbsMultiRequest extends AbsRequest{
         return this;
     }
 
-    protected abstract boolean handleSuccess(String msg);
+    protected abstract boolean handleSuccess();
 
     public void reexecute(Context context){
         for (int i = 0 ; i < requests.size(); i ++){
@@ -87,6 +87,7 @@ public abstract class AbsMultiRequest extends AbsRequest{
         execute(context);
     }
 
+    @Override
     public boolean isSuccess(){
         for(int i = 0; i < requests.size(); i ++){
             if(!requests.get(i).isSuccess()){

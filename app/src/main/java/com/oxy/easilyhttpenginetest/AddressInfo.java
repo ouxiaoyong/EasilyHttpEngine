@@ -86,4 +86,9 @@ public class AddressInfo {
             this.areaID = areaID;
         }
     }
+
+    @Override
+    public String toString() {
+        return ""+provinceName+" "+citys.get(0).cityName;
+    }
 }

@@ -12,7 +12,7 @@ import com.oxy.easilyhttpengine.log.Logger;
 public class SequentRequest extends AbsMultiRequest {
     int position = 0;
     Context mContext;
-    int getRequestIndex(){
+    int getNextRequestIndex(){
         for(int i = 0; i < requests.size(); i ++){
             if(!requests.get(i).isSuccess()){
                 return i;
@@ -22,14 +22,10 @@ public class SequentRequest extends AbsMultiRequest {
     }
 
     @Override
-    protected boolean handleSuccess(String msg){
-        int index = getRequestIndex();
+    protected boolean handleSuccess(){
+        int index = getNextRequestIndex();
         if(index == -1){
             position = 0;
-            isEndRequest = true;
-            if(multiRequestListener != null){
-                multiRequestListener.onSuccess(this,msg);
-            }
             return true;
         }else{
             position = index;
@@ -67,16 +63,8 @@ public class SequentRequest extends AbsMultiRequest {
             }
             return;
         }
-        requests.get(position).execute(context);
-    }
-
-    @Override
-    public void cancel() {
-        setCanceled(true);
-        isEndRequest = true;
-        if(currentRequest != null){
-            currentRequest.cancel();
-        }
+        currentRequest = requests.get(position);
+        currentRequest.execute(context);
     }
 
 }

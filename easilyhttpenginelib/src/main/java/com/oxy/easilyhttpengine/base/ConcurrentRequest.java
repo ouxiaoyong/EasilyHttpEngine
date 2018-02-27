@@ -12,7 +12,7 @@ import com.oxy.easilyhttpengine.log.Logger;
 public class ConcurrentRequest extends AbsMultiRequest {
 
     @Override
-    protected boolean handleSuccess(String msg){
+    protected boolean handleSuccess(){
         return isSuccess();
     }
 

@@ -11,7 +11,7 @@ import java.util.HashMap;
  * Created by BelleOU on 18/1/29.
  */
 
-public abstract class AbsRequest<T> implements IRequest {
+public abstract class AbsRequest implements IRequest {
     protected IHttpClient httpClient;
     protected String apiUrl;
     protected IDataCipher dataCipher;
@@ -77,16 +77,16 @@ public abstract class AbsRequest<T> implements IRequest {
     }
 
     protected HashMap<String,String> extraHeader;
-    public Class<T> getTypeClass() {
+    public Class<?> getTypeClass() {
         return typeClass;
     }
 
-    public AbsRequest setTypeClass(Class<T> typeClass) {
+    public AbsRequest setTypeClass(Class<?> typeClass) {
         this.typeClass = typeClass;
         return this;
     }
 
-    protected Class<T> typeClass;
+    protected Class<?> typeClass;
     public IRequestListener getRequestListener() {
         return requestListener;
     }
