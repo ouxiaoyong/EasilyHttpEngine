@@ -130,7 +130,7 @@ public abstract class AbsRequest implements IRequest {
     }
 
     protected HashMap<String,String> extraParams;
-    protected JSONObjectResponseHandler responseHandler;
+    protected IResponseHandler responseHandler;
 
     public HttpParams getHttpParams() {
         return httpParams;
@@ -145,7 +145,7 @@ public abstract class AbsRequest implements IRequest {
         return responseHandler;
     }
 
-    public AbsRequest setResponseHandler(JSONObjectResponseHandler responseHandler) {
+    public AbsRequest setResponseHandler(IResponseHandler responseHandler) {
         this.responseHandler = responseHandler;
         return this;
     }

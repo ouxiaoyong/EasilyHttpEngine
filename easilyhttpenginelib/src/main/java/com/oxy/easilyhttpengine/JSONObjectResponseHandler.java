@@ -22,7 +22,11 @@ public abstract class JSONObjectResponseHandler implements IResponseHandler<JSON
 
     @Override
     public JSONObject parseResponseObject(String response) throws Exception{
-        return new JSONObject(response);
+        try {
+            return new JSONObject(response);
+        }catch (Exception e){
+            throw new Exception("返回数据JSON格式错误");
+        }
     }
 
     @Override

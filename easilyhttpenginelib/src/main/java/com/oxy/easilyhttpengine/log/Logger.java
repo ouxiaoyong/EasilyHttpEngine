@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 public class Logger {
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 
 	private static final String DEFAULT_TAG = "ouxiao";
 	private static final boolean RECYCLE_DETAIL = false;

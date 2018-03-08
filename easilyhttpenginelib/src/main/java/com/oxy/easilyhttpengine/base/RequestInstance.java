@@ -95,14 +95,12 @@ public class RequestInstance extends AbsRequest{
                         return;
                     }
                 }
-                JSONObject object = null;
+                Object object;
                 try {
                     object = responseHandler.parseResponseObject(response);
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
-                if(object == null){
-                    error(response,"响应数据JSON格式错误！", responseCallback);
+                    error(response,e.getLocalizedMessage(), responseCallback);
                     return;
                 }
                 if(responseHandler.isSuccess(object)){
@@ -136,7 +134,7 @@ public class RequestInstance extends AbsRequest{
         httpClient.cancel(call);
     }
 
-    Object transition(JSONObject object){
+    Object transition(Object object){
         if(responseHandler != null && typeClass != null){
             Object data = null;
             String dataStr = responseHandler.getDataString(object);
@@ -155,7 +153,7 @@ public class RequestInstance extends AbsRequest{
         }
     }
 
-    void success(final String response, final JSONObject object, final IResponseCallback callback){
+    void success(final String response, final Object object, final IResponseCallback callback){
         Logger.d("response :"+ StringUtils.unicode2String(response));
         String sucMsg = "";
         Object data = transition(object);
