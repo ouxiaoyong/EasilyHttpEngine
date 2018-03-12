@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.oxy.easilyhttpengine.HttpParams;
 import com.oxy.easilyhttpengine.base.AbsMultiRequest;
 import com.oxy.easilyhttpengine.base.AbsRequest;
 import com.oxy.easilyhttpengine.base.AbsResponseCallback;
@@ -18,6 +17,7 @@ import com.oxy.easilyhttpengine.base.RequestListenerImp;
 import com.oxy.easilyhttpengine.base.RequestViewImp;
 import com.oxy.easilyhttpengine.base.SequentRequest;
 import com.oxy.easilyhttpengine.log.Logger;
+import com.oxy.easilyhttpenginetest.net.HttpParams;
 import com.oxy.easilyhttpenginetest.net.HttpTools;
 
 import java.io.File;
@@ -86,21 +86,6 @@ public class MainActivity extends AppCompatActivity{
 
     public void onGet(View v){
         textView.setText("");
-        /*HttpConfig config = new HttpConfig(this);
-        config.typeClass = Weather.class;
-        config.rqtCode = 100;
-        config.dataCipher = new DoNothingDataCipher();
-        config.responseHandler = new ResponseHandlerForGet();
-        config.setLoadingText("获取北京市天气");
-        config.url = "http://www.weather.com.cn/data/sk/101010100.html";
-        HttpTools.httpGet(config,null,new HttpListenerImpl<Weather>(requestView){
-            @Override
-            public void onRequestSuccess(HttpConfig config, Weather data, String succesText, String response) {
-                super.onRequestSuccess(config, data, succesText, response);
-                Logger.d("data :"+data);
-                textView.setText(response);
-            }
-        });*/
         new RequestInstance()
                 .setLoaddingMsg("获取北京市天气。。。")
                 .setApiUrl("http://www.weather.com.cn/data/sk/101010100.html")
@@ -110,72 +95,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void onHttpMulti(View v){
-        /*textView.setText("");
-
-        IResponseHandler responseHandler = new JSONObjectResponseHandler(false){
-            @Override
-            public String getDataString(JSONObject object) {
-                return object.toString();
-            }
-
-            @Override
-            public boolean isSuccess(JSONObject object) {
-                return true;
-            }
-
-            @Override
-            public String getMessge(JSONObject respObject, boolean success) {
-                return "";
-            }
-        };
-        List<RequestInfo> requestInfos = new ArrayList<>();
-        HttpConfig config = new HttpConfig(this);
-        config.responseHandler = responseHandler;
-        config.method = RequestType.GET;
-        config.url = "http://www.weather.com.cn/data/sk/101010100.html";
-        config.typeClass = Weather.class;
-        config.dataCipher = new DoNothingDataCipher();
-        config.setLoadingText("获取北京市天气");
-        RequestInfo requestInfo = new RequestInfo();
-        requestInfo.config = config;
-        requestInfo.params = new HttpParams();
-        requestInfo.listener = listener;
-        requestInfos.add(requestInfo);
-
-        responseHandler = new DefaultResponseHandler(false);
-        config = new HttpConfig(this);
-        config.responseHandler = responseHandler;
-        config.setLoadingText("获取URL1");
-        config.typeClass = URLInfo.class;
-        HttpParams params = createHttpParams("getRepairerURL");
-        requestInfo = new RequestInfo();
-        requestInfo.params = params;
-        requestInfo.config = config;
-        requestInfo.listener = listener;
-        requestInfos.add(requestInfo);
-
-        config = new HttpConfig(this);
-        config.typeClass = Weather.class;
-        config.method = RequestType.GET;
-        config.url = "http://www.weather.com.cn/data/sk/101020100.html";
-        config.responseHandler = new ResponseHandlerForGet();
-        config.setLoadingText("获取上海市天气");
-        config.dataCipher = new DoNothingDataCipher();
-        requestInfo = new RequestInfo();
-        requestInfo.config = config;
-        requestInfo.listener = listener;
-        requestInfos.add(requestInfo);
-        HttpTools.httpMulti(requestInfos,new IMultiHttpListener() {
-            @Override
-            public void onMultiHttpStart() {
-                Logger.d("onMultiHttpStart");
-            }
-
-            @Override
-            public void onMultiHttpComplete(boolean isAllSuccess) {
-                Logger.d("onMultiHttpComplete isAllSuccess:"+isAllSuccess);
-            }
-        });*/
 
         RequestListenerImp requestListenerImp = new RequestListenerImp(new RequestViewImp(this));
         new SequentRequest().addRequest(new RequestInstance()
@@ -203,12 +122,7 @@ public class MainActivity extends AppCompatActivity{
 
     public void onPost(View v){
         textView.setText("");
-        /*HttpConfig config = new HttpConfig(this);
-        config.setLoadingText("获取地址库");
-        config.rqtCode = 10;
-        config.typeClass = AddressInfo.class;
-        HttpParams params = createHttpParams("getRepairerAddressList");
-        HttpTools.httpPost(config,params,listener);*/
+
         HttpParams params = createHttpParams("getRepairerAddressList");
         HttpTools.getDefaultRequest(params)
                 .setTypeClass(AddressInfo.class)
@@ -228,73 +142,6 @@ public class MainActivity extends AppCompatActivity{
 
     public void onPostMulti(View v){
         textView.setText("");
-        /*List<RequestInfo> requestInfos = new ArrayList<>();
-        DefaultResponseHandler responseHandler = new DefaultResponseHandler(true);
-        HttpConfig config = new HttpConfig(this);
-        config.responseHandler = responseHandler;
-        config.setLoadingText("获取地址库1");
-        config.rqtCode = 10;
-        config.typeClass = AddressInfo.class;
-        HttpParams params = createHttpParams("getRepairerAddressList");
-
-        RequestInfo requestInfo = new RequestInfo();
-        requestInfo.params = params;
-        requestInfo.config = config;
-        requestInfo.listener = listener;
-        requestInfos.add(requestInfo);
-
-
-        responseHandler = new DefaultResponseHandler(false);
-        config = new HttpConfig(this);
-        config.responseHandler = responseHandler;
-        config.setLoadingText("获取URL1");
-        config.rqtCode = 11;
-        config.typeClass = URLInfo.class;
-        params = createHttpParams("getRepairerURL");
-        requestInfo = new RequestInfo();
-        requestInfo.params = params;
-        requestInfo.config = config;
-        requestInfo.listener = listener;
-        requestInfos.add(requestInfo);
-
-        config = new HttpConfig(this);
-        responseHandler = new DefaultResponseHandler(true);
-        config.responseHandler = responseHandler;
-        config.setLoadingText("获取地址库2");
-        config.rqtCode = 12;
-        config.typeClass = AddressInfo.class;
-        params = createHttpParams("getRepairerAddressList");
-
-        requestInfo = new RequestInfo();
-        requestInfo.params = params;
-        requestInfo.config = config;
-        requestInfo.listener = listener;
-        requestInfos.add(requestInfo);
-
-        config = new HttpConfig(this);
-        config.responseHandler = responseHandler;
-        config.setLoadingText("获取URL2");
-        config.rqtCode = 13;
-        config.typeClass = URLInfo.class;
-        params = createHttpParams("getRepairerURL");
-        //responseHandler = new DefaultResponseHandler(false);
-        requestInfo = new RequestInfo();
-        requestInfo.params = params;
-        requestInfo.config = config;
-        requestInfo.listener = listener;
-        requestInfos.add(requestInfo);
-
-        HttpTools.httpPostMulti(requestInfos, new IMultiHttpListener() {
-            @Override
-            public void onMultiHttpStart() {
-                Logger.d("onMultiHttpStart");
-            }
-
-            @Override
-            public void onMultiHttpComplete(boolean isAllSuccess) {
-                Logger.d("onMultiHttpComplete isAllSuccess:"+isAllSuccess);
-            }
-        });*/
 
         HttpParams params = createHttpParams("getRepairerAddressList");
         new SequentRequest().addRequest(new RequestInstance()
@@ -323,12 +170,7 @@ public class MainActivity extends AppCompatActivity{
 
     public void onUploadImage(View v){
         textView.setText("");
-        /*HttpConfig config = new HttpConfig(this);
-        config.setLoadingText("上传图片");
-        config.rqtCode = 11;
-        config.typeClass = URLInfo.class;
-        HttpParams params = createHttpParams("setRepairerUploadImage");
-        HttpTools.uploadFile(config,params, imagePath,listener);*/
+
         HttpParams params = createHttpParams("setRepairerUploadImage");
         HttpTools.getDefaultRequest(params)
                 .setMethod(IHttpClient.Method.UPLOAD)
@@ -409,7 +251,7 @@ public class MainActivity extends AppCompatActivity{
                 .put("latitude",1000)
                 .put("deviceID","1888f7535e96456bafb7874f16303304")
                 .put("clientID","728d5d77557a74d3217aa0127373efc6")
-                .put("userToken","6f28b95dfa4438550d71626bc0336f25")
+                .put("userToken","3b9289a020fd2d53dbcaea50459a0828")
                 .put("deviceType",0);
     }
 }

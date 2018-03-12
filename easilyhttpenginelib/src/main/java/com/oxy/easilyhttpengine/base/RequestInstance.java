@@ -6,13 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.TextUtils;
 
 import com.oxy.easilyhttpengine.log.Logger;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
 
 /**
  * Created by BelleOU on 18/1/26.
@@ -33,22 +28,15 @@ public class RequestInstance extends AbsRequest{
             httpClient = new OKHttpClient();
         }
 
-        String paramsStr = httpParams == null ? "":httpParams.toString();
-        if(dataCipher != null){
+        if(paramsTransformer != null){
             try {
-                paramsStr = dataCipher.encrypt(paramsStr);
+                params = paramsTransformer.transformParams(getParams());
             } catch (Exception e) {
                 error(null,"请求数据加密失败！", responseCallback);
                 return;
             }
         }
-        HashMap<String,String> paramsMap = new HashMap<>();
-        if(extraParams != null){
-            paramsMap.putAll(extraParams);
-        }
-        if(!TextUtils.isEmpty(paramsKey)){
-            paramsMap.put(paramsKey,paramsStr);
-        }
+
         IHttpClient.IResponseListener responseListener = new IHttpClient.IResponseListener() {
             @Override
             public void onProgress(final float percentage) {
@@ -87,9 +75,9 @@ public class RequestInstance extends AbsRequest{
                     success(response,null, responseCallback);
                     return;
                 }
-                if(dataCipher != null){
+                if(responseTransformer != null){
                     try {
-                        response = dataCipher.decrypt(response);
+                        response = responseTransformer.transformResponse(response);
                     } catch (Exception e) {
                         error(response,"响应数据解密失败！", responseCallback);
                         return;
@@ -119,9 +107,9 @@ public class RequestInstance extends AbsRequest{
             }
         };
         if(getMethod() == IHttpClient.Method.UPLOAD){
-            call = httpClient.upload(apiUrl,extraHeader,paramsMap,responseListener,uploadDispositionName,uploadFilePath);
+            call = httpClient.upload(apiUrl,extraHeader, params,responseListener,uploadDispositionName,uploadFilePath);
         }else {
-            call = httpClient.request(apiUrl, getMethod(), extraHeader, paramsMap,responseListener);
+            call = httpClient.request(apiUrl, getMethod(), extraHeader, params,responseListener);
         }
     }
 

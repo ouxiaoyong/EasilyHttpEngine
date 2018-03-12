@@ -1,11 +1,11 @@
 package com.oxy.easilyhttpengine.base;
 
-import com.oxy.easilyhttpengine.HttpParams;
-import com.oxy.easilyhttpengine.IDataCipher;
+import com.oxy.easilyhttpengine.IParamsTransformer;
 import com.oxy.easilyhttpengine.IResponseHandler;
-import com.oxy.easilyhttpengine.JSONObjectResponseHandler;
+import com.oxy.easilyhttpengine.IResponseTransformer;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by BelleOU on 18/1/29.
@@ -14,9 +14,28 @@ import java.util.HashMap;
 public abstract class AbsRequest implements IRequest {
     protected IHttpClient httpClient;
     protected String apiUrl;
-    protected IDataCipher dataCipher;
-    protected String paramsKey;
+    protected IResponseTransformer responseTransformer;
+    protected IParamsTransformer paramsTransformer;
     protected String uploadDispositionName;
+
+    public IResponseTransformer getResponseTransformer() {
+        return responseTransformer;
+    }
+
+    public AbsRequest setResponseTransformer(IResponseTransformer responseTransformer) {
+        this.responseTransformer = responseTransformer;
+        return this;
+    }
+
+    public IParamsTransformer getParamsTransformer() {
+        return paramsTransformer;
+    }
+
+    public AbsRequest setParamsTransformer(IParamsTransformer paramsTransformer) {
+        this.paramsTransformer = paramsTransformer;
+        return this;
+    }
+
     protected IResponseCallback responseCallback;
     protected boolean isSuccess = false;
 
@@ -118,28 +137,18 @@ public abstract class AbsRequest implements IRequest {
     }
 
     protected String uploadFilePath;
-    protected HttpParams httpParams;
 
-    public HashMap<String, String> getExtraParams() {
-        return extraParams;
+    public Map<String, String> getParams() {
+        return params;
     }
 
-    public AbsRequest setExtraParams(HashMap<String, String> extraParams) {
-        this.extraParams = extraParams;
+    public AbsRequest setParams(Map<String, String> params) {
+        this.params = params;
         return this;
     }
 
-    protected HashMap<String,String> extraParams;
+    protected Map<String,String> params;
     protected IResponseHandler responseHandler;
-
-    public HttpParams getHttpParams() {
-        return httpParams;
-    }
-
-    public AbsRequest setHttpParams(HttpParams httpParams) {
-        this.httpParams = httpParams;
-        return this;
-    }
 
     public IResponseHandler getResponseHandler() {
         return responseHandler;
@@ -165,24 +174,6 @@ public abstract class AbsRequest implements IRequest {
 
     public AbsRequest setApiUrl(String apiUrl) {
         this.apiUrl = apiUrl;
-        return this;
-    }
-
-    public IDataCipher getDataCipher() {
-        return dataCipher;
-    }
-
-    public AbsRequest setDataCipher(IDataCipher dataCipher) {
-        this.dataCipher = dataCipher;
-        return this;
-    }
-
-    public String getParamsKey() {
-        return paramsKey;
-    }
-
-    public AbsRequest setParamsKey(String paramsKey) {
-        this.paramsKey = paramsKey;
         return this;
     }
 

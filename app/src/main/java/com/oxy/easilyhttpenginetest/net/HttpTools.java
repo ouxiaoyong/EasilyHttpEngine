@@ -1,13 +1,16 @@
 package com.oxy.easilyhttpenginetest.net;
 
-import com.oxy.easilyhttpengine.HttpParams;
 import com.oxy.easilyhttpengine.JSONObjectResponseHandler;
 import com.oxy.easilyhttpengine.base.AbsRequest;
 import com.oxy.easilyhttpengine.base.IHttpClient;
 import com.oxy.easilyhttpengine.base.OKHttpClient;
 import com.oxy.easilyhttpengine.base.RequestInstance;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/7/21.
@@ -21,20 +24,18 @@ public class HttpTools {
     private static final JSONObjectResponseHandler responseHandler = new DefaultResponseHandler(true);
     private static final JSONObjectResponseHandler responseHandler2 = new DefaultResponseHandler(false);
     public static AbsRequest getDefaultRequest(boolean isListData,HttpParams httpParams){
-        HashMap<String,String> unEncryptParams = new HashMap<>();
-        if(httpParams != null){
-            unEncryptParams.put(KEY_API_NAME,httpParams.getString(KEY_API_NAME));
-        }
+        Map<String,String> params = new HashMap<>();
+        params.put("data",httpParams.toString());
+        params.put(KEY_API_NAME,httpParams.getString(KEY_API_NAME));
         RequestInstance request = new RequestInstance();
         request.setApiUrl(URL);
         request.setUploadDispositionName("image");
         request.setHttpClient(httpClient);
 
-        request.setDataCipher(aesCipher);
-        request.setParamsKey("data");
+        request.setResponseTransformer(aesCipher);
+        request.setParamsTransformer(aesCipher);
         request.setResponseHandler(isListData? responseHandler:responseHandler2);
-        request.setExtraParams(unEncryptParams);
-        request.setHttpParams(httpParams);
+        request.setParams(params);
         return request;
     }
 

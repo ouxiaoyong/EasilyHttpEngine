@@ -1,14 +1,16 @@
 package com.oxy.easilyhttpenginetest.net;
 
 
-import com.oxy.easilyhttpengine.IDataCipher;
+import com.oxy.easilyhttpengine.IParamsTransformer;
+import com.oxy.easilyhttpengine.IResponseTransformer;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-public class AesCipher implements IDataCipher {
+public class AesCipher implements IResponseTransformer,IParamsTransformer {
 	//填写您的加密密钥
 	private byte[] raw;
 
@@ -18,23 +20,6 @@ public class AesCipher implements IDataCipher {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public String decrypt(String dataSource) throws Exception {
-		SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-		Cipher cipher = Cipher.getInstance("AES");
-		cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-		byte[] encrypted1 = hex2byte(dataSource);
-		byte[] original = cipher.doFinal(encrypted1);
-		return new String(original,"utf-8");
-	}
-
-	public String encrypt(String dataSource) throws Exception {
-		SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-		Cipher cipher = Cipher.getInstance("AES");
-		cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-		byte[] encrypted = cipher.doFinal(dataSource.getBytes());
-		return byte2hex(encrypted).toUpperCase();
 	}
 
 	public static byte[] hex2byte(String strhex) {
@@ -65,5 +50,27 @@ public class AesCipher implements IDataCipher {
 			}
 		}
 		return hs.toUpperCase();
+	}
+
+	@Override
+	public String transformResponse(String response) throws Exception {
+		SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+		Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+		byte[] encrypted1 = hex2byte(response);
+		byte[] original = cipher.doFinal(encrypted1);
+		return new String(original,"utf-8");
+	}
+
+	@Override
+	public Map<String, String> transformParams(Map<String, String> params) throws Exception{
+		String text = params.get("data");
+		SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+		Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+		byte[] encrypted = cipher.doFinal(text.getBytes());
+		text = byte2hex(encrypted).toUpperCase();
+		params.put("data",text);
+		return params;
 	}
 }

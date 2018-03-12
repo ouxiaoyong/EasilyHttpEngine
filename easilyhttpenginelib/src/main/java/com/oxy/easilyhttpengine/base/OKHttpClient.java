@@ -2,14 +2,11 @@ package com.oxy.easilyhttpengine.base;
 
 import android.text.TextUtils;
 
-import com.oxy.easilyhttpengine.log.Logger;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -33,10 +30,19 @@ import okio.BufferedSink;
  */
 
 public class OKHttpClient implements IHttpClient<Call> {
+    private Dns dns;
+    private final OkHttpClient client = new OkHttpClient.Builder().dns(new okhttp3.Dns() {
+        @Override
+        public List<InetAddress> lookup(String hostname) throws UnknownHostException {
+            if(dns != null){
+                return dns.lookup(hostname);
+            }
+            return SYSTEM.lookup(hostname);
+        }
+    }).build();
 
-    private final OkHttpClient client = new OkHttpClient.Builder().build();
     @Override
-    public Call request(String url, Method method, HashMap<String, String> extraHeader, HashMap<String, String> params, IResponseListener responseListener) {
+    public Call request(String url, Method method, Map<String, String> extraHeader, Map<String, String> params, IResponseListener responseListener) {
         Request.Builder requestBuilder = new Request.Builder();
         if (method == Method.GET) {
             if (params != null && params.size() > 0) {
@@ -59,7 +65,7 @@ public class OKHttpClient implements IHttpClient<Call> {
     }
 
     @Override
-    public Call upload(String url, HashMap<String, String> extraHeader, HashMap<String, String> params,
+    public Call upload(String url, Map<String, String> extraHeader, Map<String, String> params,
                        IResponseListener responseListener, String dispositionName,String filePath) {
         if (TextUtils.isEmpty(filePath)) {
             if (responseListener != null) {
@@ -99,6 +105,12 @@ public class OKHttpClient implements IHttpClient<Call> {
             return;
         }
         call.cancel();
+    }
+
+    @Override
+    public IHttpClient setDns(Dns dns) {
+        this.dns = dns;
+        return this;
     }
 
     private Call executeRequest(Request request, final IResponseListener responseListener) {
@@ -187,7 +199,7 @@ public class OKHttpClient implements IHttpClient<Call> {
     }
 
 
-    private void addParmsForPost(FormBody.Builder builder, HashMap<String, String> params) {
+    private void addParmsForPost(FormBody.Builder builder, Map<String, String> params) {
         if (params == null || params.size() == 0) {
             return;
         }
@@ -199,7 +211,7 @@ public class OKHttpClient implements IHttpClient<Call> {
         }
     }
 
-    private void addParmsForUploadFile(MultipartBody.Builder builder, HashMap<String, String> params) {
+    private void addParmsForUploadFile(MultipartBody.Builder builder, Map<String, String> params) {
         if (params == null || params.size() == 0) {
             return;
         }
@@ -213,7 +225,7 @@ public class OKHttpClient implements IHttpClient<Call> {
         }
     }
 
-    private String addParamsForGet(String url, HashMap<String, String> params) {
+    private String addParamsForGet(String url, Map<String, String> params) {
         Iterator<Map.Entry<String, String>> iterator = params.entrySet().iterator();
         Map.Entry<String, String> entry;
         StringBuilder stringBuilder = new StringBuilder();
